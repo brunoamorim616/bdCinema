@@ -4,5 +4,7 @@ nomeCliente varchar(50) NOT NULL,
 dataNascimento date,
 cep int(8) NOT NULL,
 endereco varchar(150) NOT NULL,
-cpf int(11) NOT NULL
+cpf int(11) NOT NULL,
+senha varchar(20) NOT NULL,
+usuario varchar(20) NOT NULL
 );
