@@ -1,0 +1,8 @@
+create table cliente(
+idCliente int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+nomeCliente varchar(50) NOT NULL,
+dataNascimento date,
+cep int(8) NOT NULL,
+endereco varchar(150) NOT NULL,
+cpf int(11) NOT NULL
+);
