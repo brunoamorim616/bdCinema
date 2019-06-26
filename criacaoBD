@@ -1,0 +1,9 @@
+
+Criação do Banco de Dados
+
+
+-------------------------
+create database bdCinema;
+use bdCinema;
+-------------------------
+
