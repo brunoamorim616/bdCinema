@@ -3,7 +3,7 @@ Criação do Banco de Dados
 
 
 -------------------------
-create database bdCinema;
-use bdCinema;
+CREATE SCHEMA IF NOT EXISTS `bdcinema` DEFAULT CHARACTER SET latin1 ;
+USE `bdcinema` ;
 -------------------------
 
