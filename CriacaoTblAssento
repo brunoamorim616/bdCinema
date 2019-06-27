@@ -1,0 +1,7 @@
+-- -----------------------------------------------------
+-- Table `bdcinema`.`assento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bdcinema`.`assento` (
+  `idassento` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`idassento`))
+ENGINE = InnoDB;
