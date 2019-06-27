@@ -1,0 +1,154 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema bdcinema
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema bdcinema
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `bdcinema` DEFAULT CHARACTER SET latin1 ;
+USE `bdcinema` ;
+
+-- -----------------------------------------------------
+-- Table `bdcinema`.`cliente`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bdcinema`.`cliente` (
+  `idCliente` INT(11) NOT NULL AUTO_INCREMENT,
+  `nomeCliente` VARCHAR(50) NOT NULL,
+  `dataNascimento` DATE NULL DEFAULT NULL,
+  `cep` INT(8) NOT NULL,
+  `endereco` VARCHAR(150) NOT NULL,
+  `cpf` INT(11) NOT NULL,
+  `senha` VARCHAR(20) NOT NULL,
+  `usuario` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`idCliente`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bdcinema`.`funcionario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bdcinema`.`funcionario` (
+  `idFuncionario` INT(11) NOT NULL AUTO_INCREMENT,
+  `nomeFuncionário` VARCHAR(50) NOT NULL,
+  `dataNascimento` DATE NULL DEFAULT NULL,
+  `cep` INT(8) NOT NULL,
+  `endereco` VARCHAR(150) NOT NULL,
+  `cpf` INT(11) NOT NULL,
+  `senha` VARCHAR(20) NOT NULL,
+  `usuario` VARCHAR(20) NOT NULL,
+  `tipo` TINYINT(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`idFuncionario`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bdcinema`.`preco`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bdcinema`.`preco` (
+  `idpreco` INT NOT NULL AUTO_INCREMENT,
+  `preco` FLOAT NOT NULL,
+  `tipoEntrada` TINYINT NOT NULL,
+  PRIMARY KEY (`idpreco`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bdcinema`.`filme`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bdcinema`.`filme` (
+  `idFilmes` INT NOT NULL AUTO_INCREMENT,
+  `nomeFilmes` VARCHAR(55) NOT NULL,
+  `dataDeLancamento` DATE NOT NULL,
+  `3D` TINYINT NOT NULL,
+  PRIMARY KEY (`idFilmes`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bdcinema`.`sessao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bdcinema`.`sessao` (
+  `idsessao` INT NOT NULL AUTO_INCREMENT,
+  `horaInicio` DATETIME NOT NULL,
+  `horaTermino` DATETIME NOT NULL,
+  `preco_idpreco` INT NOT NULL,
+  `filme_idFilmes` INT NOT NULL,
+  PRIMARY KEY (`idsessao`),
+  CONSTRAINT `fk_sessao_preco1`
+    FOREIGN KEY (`preco_idpreco`)
+    REFERENCES `bdcinema`.`preco` (`idpreco`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sessao_filme1`
+    FOREIGN KEY (`filme_idFilmes`)
+    REFERENCES `bdcinema`.`filme` (`idFilmes`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bdcinema`.`sala`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bdcinema`.`sala` (
+  `idSala` INT NOT NULL AUTO_INCREMENT,
+  `nomeSala` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`idSala`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bdcinema`.`assento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bdcinema`.`assento` (
+  `idassento` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`idassento`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bdcinema`.`cliente_tem_sessao_assento_em_sala`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bdcinema`.`cliente_tem_sessao_assento_em_sala` (
+  `sessao_idsessao` INT NOT NULL,
+  `assento_idassento` INT NOT NULL,
+  `sala_idSala` INT NOT NULL,
+  `cliente_idCliente` INT(11) NOT NULL,
+  CONSTRAINT `fk_sessao_has_assento_sessao1`
+    FOREIGN KEY (`sessao_idsessao`)
+    REFERENCES `bdcinema`.`sessao` (`idsessao`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sessao_has_assento_assento1`
+    FOREIGN KEY (`assento_idassento`)
+    REFERENCES `bdcinema`.`assento` (`idassento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sessao_has_assento_sala1`
+    FOREIGN KEY (`sala_idSala`)
+    REFERENCES `bdcinema`.`sala` (`idSala`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sessao_has_assento_cliente1`
+    FOREIGN KEY (`cliente_idCliente`)
+    REFERENCES `bdcinema`.`cliente` (`idCliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
