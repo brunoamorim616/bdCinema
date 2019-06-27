@@ -7,4 +7,3 @@ CREATE TABLE IF NOT EXISTS `bdcinema`.`preco` (
   `tipoEntrada` TINYINT NOT NULL,
   PRIMARY KEY (`idpreco`))
 ENGINE = InnoDB;
-
