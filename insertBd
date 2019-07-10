@@ -1,0 +1,38 @@
+## Cliente
+INSERT INTO cliente(nomeCliente, dataNascimento, cep, endereco, cpf, senha, usuario)
+VALUES	("Bruno Amorim","2001-01-03",88350100,"Rua João Bauer",909090909,"senha123","usuario321");
+
+## Funcionário
+INSERT INTO funcionario(nomeFuncionário, dataNascimento, cep, endereco, cpf, senha, usuario, tipo)
+VALUES	("Bruno Amorim","2001-01-03",88350100,"Rua João Bauer",909090909,"senha123","usuario321", True);
+
+## Preço
+INSERT INTO preco(preco, tipoEntrada)
+VALUES	(20.00, False),
+		    (16.00, True);
+        
+## Filme
+INSERT INTO filme(nomeFilmes, dataDelancamento, 3D)
+VALUES 	("O RETARDADO: Klas", "2012-02-24", true),
+		    ("O RETARDADO 2: Ismar", "2014-02-24", false);
+        
+## Sessão
+INSERT INTO sessao(horaInicio, horaTermino, preco_idpreco, filme_idFilmes)
+VALUES	('2012-06-18 10:34:09', '2012-06-18 10:34:09', 1, 1);
+
+## Sala
+INSERT INTO sala(nomeSala)
+VALUES	("Primavera"),
+		    ("Verão");
+        
+## Assento
+INSERT INTO assento(idassento)
+VALUES	(1),
+		    (2),
+        (3),
+        (4);
+       
+## Cliente tem assento em sessão
+INSERT INTO cliente_tem_sessao_assento_em_sala(sessao_idsessao, assento_idassento, sala_idSala, cliente_idCliente)
+VALUES (4, 1, 1,1);
+
