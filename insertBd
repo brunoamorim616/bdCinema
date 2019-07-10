@@ -26,11 +26,11 @@ VALUES	("Primavera"),
 		    ("Verão");
         
 ## Assento
-INSERT INTO assento(idassento)
-VALUES	(1),
-		    (2),
-        (3),
-        (4);
+INSERT INTO assento(idassento, ocupado)
+VALUES	(1, false),
+	(2, true),
+        (3, true),
+        (4, true);
        
 ## Cliente tem assento em sessão
 INSERT INTO cliente_tem_sessao_assento_em_sala(sessao_idsessao, assento_idassento, sala_idSala, cliente_idCliente)
