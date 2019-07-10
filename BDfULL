@@ -33,6 +33,21 @@ CREATE TABLE IF NOT EXISTS `bdcinema`.`cliente` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
+INSERT INTO cliente(nomeCliente, dataNascimento, cep, endereco, cpf, senha, usuario)
+VALUES	("Bruno Amorim","2001-01-03",88350100,"Rua João Bauer",909090909,"senha123","usuario321");
+
+DELIMITER $$
+CREATE PROCEDURE cadastro_Cliente(IN nomeCliente VARCHAR(50), IN dataNascimento DATE, IN cep INT(8), IN endereco VARCHAR(150), IN cpf INT(11), IN senha VARCHAR(20), IN usuario VARCHAR(20))
+BEGIN
+    INSERT INTO cliente(nomeCliente, dataNascimento, cep, endereco, cpf, senha, usuario)
+	VALUES	(nomeCliente, dataNascimento, cep, endereco, cpf, senha, usuario);
+END $$
+DELIMITER ;
+
+call cadastro_Cliente("Eduardo Tinti","2002-02-04",84350100,"Rua Bauer",909089899,"senha321","usuario123");
+
+select*from cliente;
+
 
 -- -----------------------------------------------------
 -- Table `bdcinema`.`funcionario`
@@ -51,7 +66,20 @@ CREATE TABLE IF NOT EXISTS `bdcinema`.`funcionario` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
+INSERT INTO funcionario(nomeFuncionário, dataNascimento, cep, endereco, cpf, senha, usuario, tipo)
+VALUES	("Bruno Amorim","2001-01-03",88350100,"Rua João Bauer",909090909,"senha123","usuario321", True);
 
+DELIMITER $$
+CREATE PROCEDURE cadastro_funcionario(IN nomeFuncionário VARCHAR(50), IN dataNascimento DATE, IN cep INT(8), IN endereco VARCHAR(150), IN cpf INT(11), IN senha VARCHAR(20), IN usuario VARCHAR(20), IN tipo TINYINT(1))
+BEGIN
+    INSERT INTO funcionario(nomeFuncionário, dataNascimento, cep, endereco, cpf, senha, usuario, tipo)
+    VALUES	(nomeFuncionário, dataNascimento, cep, endereco, cpf, senha, usuario, tipo);
+END $$
+DELIMITER ;
+
+call cadastro_funcionario("Eduardo a","2002-02-04",84350100,"Rua Bauer",909089899,"senha321","usuario123", True);
+
+select*from funcionario;
 -- -----------------------------------------------------
 -- Table `bdcinema`.`preco`
 -- -----------------------------------------------------
@@ -62,6 +90,10 @@ CREATE TABLE IF NOT EXISTS `bdcinema`.`preco` (
   PRIMARY KEY (`idpreco`))
 ENGINE = InnoDB;
 
+INSERT INTO preco(preco, tipoEntrada)
+VALUES	(20.00, False),
+		(16.00, True);
+SELECT * FROM preco;
 
 -- -----------------------------------------------------
 -- Table `bdcinema`.`filme`
@@ -73,6 +105,21 @@ CREATE TABLE IF NOT EXISTS `bdcinema`.`filme` (
   `3D` TINYINT NOT NULL,
   PRIMARY KEY (`idFilmes`))
 ENGINE = InnoDB;
+
+INSERT INTO filme(nomeFilmes, dataDelancamento, 3D)
+VALUES 	("O RETARDADO: Klas", "2012-02-24", true),
+		("O RETARDADO 2: Ismar", "2014-02-24", false);
+        
+DELIMITER $$
+CREATE PROCEDURE cadastro_filme(IN nomeFilmes VARCHAR(55), IN dataDeLancamento DATE, IN 3D TINYINT)
+BEGIN
+    INSERT INTO filme(nomeFilmes, dataDelancamento, 3D)
+	VALUES(nomeFilmes, dataDelancamento, 3D);
+END $$
+DELIMITER ;
+
+call cadastro_filme("O Grande Lançe","2002-02-04", False);
+select * from filme;
 
 
 -- -----------------------------------------------------
@@ -97,6 +144,9 @@ CREATE TABLE IF NOT EXISTS `bdcinema`.`sessao` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+INSERT INTO sessao(horaInicio, horaTermino, preco_idpreco, filme_idFilmes)
+VALUES	('2012-06-18 10:34:09', '2012-06-18 10:34:09', 1, 1);
+
 
 -- -----------------------------------------------------
 -- Table `bdcinema`.`sala`
@@ -107,15 +157,25 @@ CREATE TABLE IF NOT EXISTS `bdcinema`.`sala` (
   PRIMARY KEY (`idSala`))
 ENGINE = InnoDB;
 
+INSERT INTO sala(nomeSala)
+VALUES	("Primavera"),
+		("Verão");
+
 
 -- -----------------------------------------------------
 -- Table `bdcinema`.`assento`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `bdcinema`.`assento` (
   `idassento` INT NOT NULL AUTO_INCREMENT,
+  `ocupado` TINYINT NOT NULL,
   PRIMARY KEY (`idassento`))
 ENGINE = InnoDB;
 
+INSERT INTO assento(idassento, ocupado)
+VALUES	(1, false),
+		(2, true),
+        (3, true),
+        (4, true);
 
 -- -----------------------------------------------------
 -- Table `bdcinema`.`cliente_tem_sessao_assento_em_sala`
@@ -147,8 +207,13 @@ CREATE TABLE IF NOT EXISTS `bdcinema`.`cliente_tem_sessao_assento_em_sala` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+INSERT INTO cliente_tem_sessao_assento_em_sala(sessao_idsessao, assento_idassento, sala_idSala, cliente_idCliente)
+VALUES (4, 1, 1,1);
+
+CREATE VIEW cadastro_usuario
+AS Select * from Cliente;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
