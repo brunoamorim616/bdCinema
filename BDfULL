@@ -111,12 +111,19 @@ VALUES 	("O RETARDADO: Klas", "2012-02-24", true),
 		("O RETARDADO 2: Ismar", "2014-02-24", false);
         
 DELIMITER $$
-CREATE PROCEDURE cadastro_filme(IN nomeFilmes VARCHAR(55), IN dataDeLancamento DATE, IN 3D TINYINT)
+CREATE PROCEDURE assentos_livre_por_sessao(IN nomeFilme VARCHAR(55))
 BEGIN
-    INSERT INTO filme(nomeFilmes, dataDelancamento, 3D)
-	VALUES(nomeFilmes, dataDelancamento, 3D);
+    SELECT f.nomeFilmes AS nome_do_filme
+    FROM sessao AS s
+    INNER JOIN preco AS p ON s.preco_idpreco = p.idpreco
+	INNER JOIN filme AS f ON s.filme_idFilmes = f.idFilmes;
 END $$
 DELIMITER ;
+
+SELECT s.horaInicio AS horário_de_Início, s.horaTermino AS horário_de_Término, p.preco AS Preco, f.nomeFilmes AS nome_do_filmes 
+    FROM sessao AS s
+    INNER JOIN preco AS p ON s.preco_idpreco = p.idpreco
+	INNER JOIN filme AS f ON s.filme_idFilmes = f.idFilmes;
 
 call cadastro_filme("O Grande Lançe","2002-02-04", False);
 select * from filme;
@@ -134,19 +141,26 @@ CREATE TABLE IF NOT EXISTS `bdcinema`.`sessao` (
   PRIMARY KEY (`idsessao`),
   CONSTRAINT `fk_sessao_preco1`
     FOREIGN KEY (`preco_idpreco`)
-    REFERENCES `bdcinema`.`preco` (`idpreco`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `bdcinema`.`preco` (`idpreco`),
   CONSTRAINT `fk_sessao_filme1`
     FOREIGN KEY (`filme_idFilmes`)
-    REFERENCES `bdcinema`.`filme` (`idFilmes`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `bdcinema`.`filme` (`idFilmes`))
 ENGINE = InnoDB;
 
 INSERT INTO sessao(horaInicio, horaTermino, preco_idpreco, filme_idFilmes)
 VALUES	('2012-06-18 10:34:09', '2012-06-18 10:34:09', 1, 1);
 
+SELECT * FROM sessao;
+
+drop view viasualizar_sessoes;
+
+create view viasualizar_sessoes AS
+	SELECT s.horaInicio AS horário_de_Início, s.horaTermino AS horário_de_Término, p.preco AS Preco, f.nomeFilmes AS nome_do_filmes 
+    FROM sessao AS s
+    INNER JOIN preco AS p ON s.preco_idpreco = p.idpreco
+	INNER JOIN filme AS f ON s.filme_idFilmes = f.idFilmes;
+    
+SELECT * FROM viasualizar_sessoes;
 
 -- -----------------------------------------------------
 -- Table `bdcinema`.`sala`
@@ -160,6 +174,12 @@ ENGINE = InnoDB;
 INSERT INTO sala(nomeSala)
 VALUES	("Primavera"),
 		("Verão");
+
+
+SELECT s.horaInicio AS horário_de_Início, s.horaTermino AS horário_de_Término, p.preco AS Preco, f.nomeFilmes AS nome_do_filmes 
+    FROM sessao AS s
+    INNER JOIN preco AS p ON s.preco_idpreco = p.idpreco
+	INNER JOIN filme AS f ON s.filme_idFilmes = f.idFilmes;
 
 
 -- -----------------------------------------------------
