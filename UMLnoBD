@@ -1,0 +1,43 @@
+## Cadastrando novo cliente
+DELIMITER $$
+CREATE PROCEDURE cadastro_Cliente(IN nomeCliente VARCHAR(50), IN dataNascimento DATE, IN cep INT(8), IN endereco VARCHAR(150), IN cpf INT(11), IN senha VARCHAR(20), IN usuario VARCHAR(20))
+BEGIN
+    INSERT INTO cliente(nomeCliente, dataNascimento, cep, endereco, cpf, senha, usuario)
+	VALUES	(nomeCliente, dataNascimento, cep, endereco, cpf, senha, usuario);
+END $$
+DELIMITER ;
+
+CALL cadastro_Cliente("Eduardo Tinti","2002-02-04",84350100,"Rua Bauer",909089899,"senha321","usuario123");
+
+## Cadastro de Funcionário
+DELIMITER $$
+CREATE PROCEDURE cadastro_funcionario(IN nomeFuncionário VARCHAR(50), IN dataNascimento DATE, IN cep INT(8), IN endereco VARCHAR(150), IN cpf INT(11), IN senha VARCHAR(20), IN usuario VARCHAR(20), IN tipo TINYINT(1))
+BEGIN
+    INSERT INTO funcionario(nomeFuncionário, dataNascimento, cep, endereco, cpf, senha, usuario, tipo)
+    VALUES	(nomeFuncionário, dataNascimento, cep, endereco, cpf, senha, usuario, tipo);
+END $$
+DELIMITER ;
+
+call cadastro_funcionario("Eduardo a","2002-02-04",84350100,"Rua Bauer",909089899,"senha321","usuario123", True);
+
+## Cadastro de Filmes
+DELIMITER $$
+CREATE PROCEDURE cadastro_filme(IN nomeFilmes VARCHAR(55), IN dataDeLancamento DATE, IN 3D TINYINT)
+BEGIN
+    INSERT INTO filme(nomeFilmes, dataDelancamento, 3D)
+	  VALUES(nomeFilmes, dataDelancamento, 3D);
+END $$
+DELIMITER ;
+
+call cadastro_filme("O Grande Lançe","2002-02-04", False);
+
+## Visualizar sessões
+create view viasualizar_sessoes AS
+	SELECT s.horaInicio AS horário_de_Início, s.horaTermino AS horário_de_Término, p.preco AS Preco, f.nomeFilmes AS nome_do_filme 
+    FROM sessao AS s
+    INNER JOIN preco AS p ON s.preco_idpreco = p.idpreco
+	  INNER JOIN filme AS f ON s.filme_idFilmes = f.idFilmes;
+    
+SELECT * FROM viasualizar_sessoes;
+
+## 
